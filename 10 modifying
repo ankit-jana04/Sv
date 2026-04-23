@@ -1,0 +1,40 @@
+Practical 10: Modifying Virtual Machines
+Aim: To perform advanced configuration changes and hardware modifications on existing virtual machines within the vCenter environment.
+Practical Description:
+ 1. Clone a Powered-On Virtual Machine.
+ 2. Increase the Size of a VMDK File.
+ 3. Adjust Memory Allocation on a Virtual Machine.
+ 4. Rename a Virtual Machine in the vCenter Server Appliance Inventory.
+ 5. Add and Remove a Raw LUN on a Virtual Machine.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: Virtual machines allow for dynamic hardware adjustment. Hot-cloning allows for the creation of a VM copy without downtime. Hardware resources like disk space (VMDK) and RAM can often be increased while the OS is running (Hot-Add), provided the guest OS and virtual hardware version support it. Raw Device Mapping (RDM) allows a VM to directly access a physical LUN on the storage area network, bypassing the VMFS file system.
+Implementation:
+ 1. Clone a Powered-On Virtual Machine
+   Step 1: In the VMs and Templates view, right-click a powered-on VM (e.g., Ubuntu-Server).
+   Step 2: Select Clone > Clone to Virtual Machine.
+   Step 3: Enter a name (e.g., Ubuntu-Server-Clone) and select a folder.
+   Step 4: Select the compute resource and destination datastore.
+   Step 5: On the Select clone options page, leave the customization options blank unless a specific spec is required. Click Finish.
+ 2. Increase the Size of a VMDK File
+   Step 1: Right-click the target VM and select Edit Settings.
+   Step 2: Locate Hard disk 1. Enter a larger value in the size field (e.g., from 16GB to 20GB).
+   Step 3: Click OK.
+   Step 4: Note: The guest OS will see the additional space as "unallocated," and a partition tool must be used inside the OS to expand the volume.
+ 3. Adjust Memory Allocation on a Virtual Machine
+   Step 1: Right-click the VM and select Edit Settings.
+   Step 2: Expand the Memory section.
+   Step 3: Enter the new memory value (e.g., 4096 MB).
+   Step 4: If Memory Hot Plug is enabled, this can be done while powered on; otherwise, the VM must be shut down first. Click OK.
+ 4. Rename a Virtual Machine in the vCenter Server Inventory
+   Step 1: Locate the VM in the inventory tree.
+   Step 2: Right-click the VM and select Rename.
+   Step 3: Type the new name (e.g., Web-Server-New) and press Enter.
+   Step 4: Verify the name change in the inventory. Note that the folder name on the datastore remains the old name until a Storage vMotion is performed.
+ 5. Add and Remove a Raw LUN on a Virtual Machine
+   Step 1: Right-click the VM and select Edit Settings.
+   Step 2: Click Add New Device and select RDM Disk.
+   Step 3: Select an available unformatted LUN from the iSCSI storage and click OK.
+   Step 4: To remove: Open Edit Settings, click the X next to the RDM disk.
+   Step 5: Select the checkbox "Delete files from datastore" (this only deletes the mapping file, not the LUN data) and click OK.
+Conclusion: Virtual machine hardware and inventory properties were successfully modified. The ability to increase disk and memory resources was validated, alongside the administrative tasks of renaming inventory objects and managing Raw Device Mappings for direct storage access.
+
