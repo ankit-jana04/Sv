@@ -1,0 +1,48 @@
+Practical 12: Managing Virtual Machines
+Aim: To manage the virtual machine lifecycle through inventory registration and advanced snapshot operations.
+Practical Description:
+ 1. Unregister a Virtual Machine from the vCenter Server Appliance Inventory.
+ 2. Register a Virtual Machine in the vCenter Server Appliance Inventory.
+ 3. Unregister and Delete Virtual Machines from the Datastore.
+ 4. Take Snapshots of a Virtual Machine.
+ 5. Add Files and Take Another Snapshot of a Virtual Machine.
+ 6. Revert the Virtual Machine to a Snapshot.
+ 7. Delete an Individual Snapshot.
+ 8. Delete All Snapshots.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: Unregistering a VM removes its entry from vCenter but leaves the files intact on the datastore, allowing for re-registration later. Deleting from disk permanently erases all files. Snapshots preserve the state and data of a VM at a specific point in time. Multiple snapshots create a parent-child chain; deleting a snapshot merges the changes into the parent disk, while reverting returns the VM to a previous state.
+Implementation:
+ 1. Unregister a Virtual Machine from the Inventory
+   Step 1: Locate a powered-off VM in the vCenter inventory.
+   Step 2: Right-click the VM and select Remove from Inventory.
+   Step 3: Confirm that the VM is no longer visible in the list, though its files remain on the storage.
+ 2. Register a Virtual Machine in the Inventory
+   Step 1: Go to the Storage view and open the datastore where the VM was stored.
+   Step 2: Click the Files tab and enter the VM folder.
+   Step 3: Right-click the .vmx file and select Register VM.
+   Step 4: Follow the wizard to name the VM and assign it to a host.
+ 3. Unregister and Delete Virtual Machines from the Datastore
+   Step 1: Right-click a VM in the inventory.
+   Step 2: Select Delete from Disk.
+   Step 3: Confirm the action. Verify that the VM is removed from inventory and its folder is deleted from the datastore.
+ 4. Take Snapshots of a Virtual Machine
+   Step 1: Right-click a VM and select Snapshots > Take Snapshot.
+   Step 2: Name the snapshot Snapshot-01 and click Create.
+ 5. Add Files and Take Another Snapshot
+   Step 1: Power on the VM and create a new folder or file on the desktop.
+   Step 2: Right-click the VM and select Snapshots > Take Snapshot.
+   Step 3: Name this snapshot Snapshot-02 and click Create.
+ 6. Revert the Virtual Machine to a Snapshot
+   Step 1: Delete the files created in Task 5.
+   Step 2: Right-click the VM and select Snapshots > Revert to Latest Snapshot.
+   Step 3: Confirm that the deleted files have reappeared in the VM.
+ 7. Delete an Individual Snapshot
+   Step 1: Right-click the VM and select Snapshots > Manage Snapshots.
+   Step 2: Select Snapshot-01 and click Delete.
+   Step 3: Observe that the VM remains in its current state, but the snapshot point is removed from the timeline.
+ 8. Delete All Snapshots
+   Step 1: In the Snapshot Manager, click the Delete All button.
+   Step 2: Monitor the task as vCenter merges all delta files into the base virtual disk.
+   Step 3: Verify that the snapshot tree is now empty.
+Conclusion: The distinction between inventory management and physical file deletion was successfully demonstrated. The snapshot lifecycle—including creation, state reversion, and disk consolidation—was validated, proving the effectiveness of snapshots for data protection and testing.
+
