@@ -1,0 +1,36 @@
+Practical 11: Migrating Virtual Machines
+Aim: To configure vSphere vMotion networking and perform live migrations of virtual machines across compute and storage resources.
+Practical Description:
+ 1. Create a Virtual Switch and a VMkernel Port Group for vSphere vMotion Migration.
+ 2. Prepare Virtual Machines to Demonstrate vSphere vMotion Migration.
+ 3. Perform vSphere vMotion Migrations of Virtual Machines.
+ 4. Perform Compute Resource and Storage Migrations.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: vMotion allows for the live migration of running virtual machines from one physical server to another with zero downtime. This requires a dedicated high-speed network (vMotion Network) and shared storage access for both hosts. Storage vMotion allows for the migration of a VM's files between different datastores while the VM remains operational.
+Implementation:
+ 1. Create a Virtual Switch and a VMkernel Port Group for vMotion
+   Step 1: Select the first ESXi host and navigate to Configure > Networking > VMkernel adapters.
+   Step 2: Click Add Networking and select VMkernel Network Adapter.
+   Step 3: Create a New standard switch and assign an uplink.
+   Step 4: Enter the Network Label as vMotion-Net and check the vMotion service box.
+   Step 5: Assign a static IP address.
+   Step 6: Repeat these steps on the second ESXi host using an IP address on the same subnet.
+ 2. Prepare Virtual Machines to Demonstrate vMotion
+   Step 1: Locate a virtual machine stored on a shared datastore (iSCSI or NFS).
+   Step 2: Ensure the VM is powered on.
+   Step 3: Open a console to the VM and start a continuous ping to a gateway or external IP to monitor for packet loss during migration.
+   Step 4: Verify that the VM has no local media (like an ISO) attached.
+ 3. Perform vSphere vMotion Migrations of Virtual Machines
+   Step 1: Right-click the running virtual machine and select Migrate.
+   Step 2: Select Change compute resource only and click Next.
+   Step 3: Select the second ESXi host as the destination. Ensure the compatibility check passes.
+   Step 4: Select the vMotion priority and click Finish.
+   Step 5: Monitor the Task console. Verify the VM moves to the new host without dropping the continuous ping.
+ 4. Perform Compute Resource and Storage Migrations
+   Step 1: Right-click the virtual machine and select Migrate.
+   Step 2: Select Change both compute resource and storage and click Next.
+   Step 3: Select a different destination host.
+   Step 4: Select a different destination datastore (e.g., move from iSCSI to NFS).
+   Step 5: Review the summary and click Finish. vCenter will copy the disk files and the memory state simultaneously to the new location.
+Conclusion: The networking prerequisites for vSphere vMotion were successfully established. Live migrations of active virtual machines were performed across both compute resources (hosts) and storage resources (datastores), demonstrating the ability to maintain service availability during hardware maintenance or resource rebalancing.
+
