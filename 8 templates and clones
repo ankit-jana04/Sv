@@ -1,0 +1,31 @@
+Practical 8: Using Templates and Clones
+Aim: To create virtual machine templates and use customization specifications to rapidly deploy pre-configured virtual machines.
+Practical Description:
+ 1. Create a Virtual Machine Template.
+ 2. Create Customization Specifications.
+ 3. Deploy a Virtual Machine from a Template.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: A VM Template is a master image of a virtual machine used for mass deployment. Once a VM is converted to a template, it becomes immutable and cannot be powered on. Customization Specifications are used during the cloning process to automatically reconfigure the guest operating system's identity, such as changing the hostname, IP address, and SID, which prevents network conflicts.
+Implementation:
+ 1. Create a Virtual Machine Template
+   Step 1: In the vSphere Client, navigate to the VMs and Templates view.
+   Step 2: Locate a powered-off virtual machine that has been fully updated and configured.
+   Step 3: Right-click the virtual machine, select Template, and click Convert to Template.
+   Step 4: Confirm the action. Verify the VM icon changes to a template icon in the inventory.
+ 2. Create Customization Specifications
+   Step 1: Click the Menu icon and select Policies and Profiles.
+   Step 2: Select Customization Specifications Manager and click New.
+   Step 3: Provide a name (e.g., Ubuntu-Static-Spec) and select the Target Guest OS (Linux).
+   Step 4: In the Computer Name section, select "Use the virtual machine name" to ensure the hostname matches the vCenter name.
+   Step 5: Configure the Time Zone and Network settings (e.g., Manual entry or DHCP).
+   Step 6: Review the summary and click Finish.
+ 3. Deploy a Virtual Machine from a Template
+   Step 1: Navigate back to VMs and Templates.
+   Step 2: Right-click the Template created in Task 1 and select New VM from This Template.
+   Step 3: Enter a name for the new VM (e.g., Web-Server-Production) and select a location.
+   Step 4: Select the compute resource (ESXi host) and the destination datastore.
+   Step 5: On the Select clone options page, check the box "Customize the operating system."
+   Step 6: Select the Customization Specification created in Task 2.
+   Step 7: Review the configuration and click Finish. The VM will be cloned and automatically configured upon first boot.
+Conclusion: Virtual machine templates were successfully created to serve as a baseline for deployments. By utilizing customization specifications, the manual effort of reconfiguring guest operating systems was eliminated, ensuring that newly deployed virtual machines have unique network identities while maintaining a standardized software configuration.
+
