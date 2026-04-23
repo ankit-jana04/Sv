@@ -1,0 +1,43 @@
+Practical 2: Working with vCenter Server Appliance
+Aim: To initialize the vCenter Server Appliance (vCSA) inventory, manage licensing, and establish the logical organizational structure of the datacenter.
+Practical Description:
+Access your vCenter Server Appliance and Configure Licenses.
+Configure Single Sign-On (SSO) and Create a Data Center Object.
+Add Your ESXi Hosts to the vCenter Server Inventory.
+Configure the ESXi Hosts as NTP Clients.
+Create a Host and Cluster Folder.
+Create Virtual Machine and Template Folders.
+Navigate vSphere Client.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: The vCenter Server Appliance (vCSA) is the centralized management platform for the vSphere environment. While ESXi hosts can be managed individually, vCenter allows for advanced features like clustering, centralized logging, and resource scheduling. Organization within vCenter is achieved through Folders and Datacenter objects, which allow administrators to apply permissions and policies to groups of hosts or VMs rather than individual entities.
+Implementation:
+1. Access vCenter and Configure Licenses
+STEP 1: Open a browser and navigate to https://192.168.0.110/ui.
+STEP 2: Log in as administrator@vsphere.local.
+STEP 3: Navigate to Administration > Licensing > Licenses.
+STEP 4: Click Add New Licenses, enter your license keys for both vCenter and ESXi, and assign them to the respective assets to remove the "Evaluation Mode" warning.
+2. Configure SSO and Create a Datacenter Object
+STEP 1: Under Administration, verify the Single Sign-On (SSO) configuration to manage user identities.
+STEP 2: Go to the Hosts and Clusters view. Right-click the vCenter Server (192.168.0.110) and select New Datacenter.
+STEP 3: Name it Lab-Datacenter (as seen in your screenshots). This acts as the highest-level container for all resources.
+3. Add ESXi Hosts to Inventory
+STEP 1: Right-click Lab-Datacenter and select Add Host.
+STEP 2: Enter the IP address of your ESXi host (192.168.0.106) and click Next.
+STEP 3: Provide the root credentials and accept the SHA-1 thumbprint security certificate.
+STEP 4: Review the summary and click Finish. The host will now appear under the datacenter.
+4. Configure ESXi Hosts as NTP Clients
+STEP 1: Select the ESXi host and navigate to Configure > System > Time Configuration.
+STEP 2: Click Edit and select Use Network Time Protocol (NTP).
+STEP 3: Set the NTP Service Startup Policy to Start and stop with host.
+STEP 4: Enter a reliable NTP server IP (e.g., pool.ntp.org or a local gateway IP) and click Start to synchronize the host's clock with the vCenter server.
+5. Create Host and Cluster Folders
+STEP 1: Right-click the Lab-Datacenter and select New Folder > New Host and Cluster Folder.
+STEP 2: Name it Management-Infrastructure.
+STEP 3: Drag your ESXi hosts into this folder to organize them logically away from production or test hosts.
+6. Create VM and Template Folders
+STEP 1: Switch to the VMs and Templates view.
+STEP 2: Right-click the Lab-Datacenter and select New Folder > New VM and Template Folder.
+STEP 3: Create two folders: Production-VMs and Master-Templates. This prevents inventory clutter as the number of VMs grows.
+7. Navigate vSphere Client
+STEP 1: Utilize the Global Search bar at the top to quickly find VMs by name.
+STEP 2: Explore the different views: Hosts and Clusters (Physical view), VMs and Templates (Logical view), Storage (Disk view), and Networking (Switch view).
