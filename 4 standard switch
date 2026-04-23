@@ -1,0 +1,29 @@
+Practical 4: Using Standard Switches
+Aim: To configure and manage virtual machine connectivity using VMware Standard Switches (vSS).
+Practical Description:
+ 1. View the Standard Switch Configuration.
+ 2. Create a Standard Switch with a Virtual Machine Port Group.
+ 3. Attach Your Virtual Machines to the New Virtual Machine Port Group.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: A Standard Switch (vSS) manages VM-to-VM traffic within a single host and connects VMs to the external physical network via uplinks. A Port Group acts as a logical template for these connections, allowing administrators to group VMs based on security or functional requirements. By creating separate switches, traffic can be physically and logically isolated.
+Implementation:
+ 1. View the Standard Switch Configuration
+   Step 1: Log in to the vSphere Client and go to the Hosts and Clusters view.
+   Step 2: Select your ESXi host (192.168.0.106) and click the Configure tab.
+   Step 3: Under Networking, select Virtual switches.
+   Step 4: Examine the default vSwitch0, noting the assigned Physical Adapters (uplinks) and existing port groups like Management Network and VM Network.
+ 2. Create a Standard Switch with a Virtual Machine Port Group
+   Step 1: In the Virtual switches view, click Add Networking.
+   Step 2: Select Virtual Machine Port Group for a Standard Switch and click Next.
+   Step 3: Select New standard switch and click Next.
+   Step 4: Click Add adapters to assign an unused physical NIC (e.g., vmnic1) to the switch and click Next.
+   Step 5: Enter a Network Label (e.g., Production-Switch-02) and a VLAN ID if necessary. Click Next.
+   Step 6: Review the summary and click Finish. Verify the new switch appears in the list.
+ 3. Attach Your Virtual Machines to the New Virtual Machine Port Group
+   Step 1: Navigate to the VMs and Templates view.
+   Step 2: Select a Virtual Machine (e.g., Ubuntu-VM), right-click it, and select Edit Settings.
+   Step 3: Locate Network Adapter 1. Use the dropdown menu to select the new port group (Production-Switch-02).
+   Step 4: Ensure the Connected and Connect at power on boxes are checked.
+   Step 5: Click OK. Open the VM console and verify network connectivity (e.g., via ping) to ensure the new switch is routing traffic correctly.
+Conclusion: A new Standard Switch was successfully provisioned with a dedicated Virtual Machine Port Group. The task validated that virtual machines can be migrated between different virtual switches to achieve network isolation and traffic management.
+
