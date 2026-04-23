@@ -1,0 +1,35 @@
+Practical 5: Accessing iSCSI Storage
+Aim: To configure an ESXi host to connect to remote block-level storage using the iSCSI protocol over a standard IP network.
+Practical Description:
+ 1. Validate an Existing ESXi Host iSCSI Configuration.
+ 2. Add a VMkernel Port Group to a Standard Switch.
+ 3. Configure the iSCSI Software Adapter.
+ 4. Connect the iSCSI Software Adapters to Storage.
+Software used: VMware vCenter Server 7.0, VMware ESXi, Ubuntu iSCSI Target.
+Theory: iSCSI (Internet Small Computer System Interface) allows an ESXi host to transmit SCSI commands over an Ethernet network. Unlike file-level storage, iSCSI provides raw block-level storage. The ESXi host uses a software-based initiator (Software iSCSI Adapter) to connect to a target server. A dedicated VMkernel port is required to handle the encapsulation of SCSI data into TCP/IP packets.
+Implementation:
+ 1. Validate an Existing ESXi Host iSCSI Configuration
+   Step 1: Log in to the vSphere Client and select your ESXi host.
+   Step 2: Go to the Configure tab and select Storage Adapters.
+   Step 3: Review the list of existing adapters to ensure no conflicting iSCSI initiators are currently running.
+   Step 4: Check the Networking section to verify the current physical NIC status and IP subnet availability.
+ 2. Add a VMkernel Port Group to a Standard Switch
+   Step 1: Navigate to Configure > Networking > VMkernel adapters and click Add Networking.
+   Step 2: Select VMkernel Network Adapter and click Next.
+   Step 3: Choose an existing switch (e.g., vSwitch0) and click Next.
+   Step 4: Set the Network Label to iSCSI-Storage.
+   Step 5: Assign a static IPv4 address (e.g., 192.168.0.115) that is on the same subnet as the Ubuntu iSCSI target. Click Finish.
+ 3. Configure the iSCSI Software Adapter
+   Step 1: Go to Configure > Storage > Storage Adapters.
+   Step 2: Click Add Software Adapter and select Add iSCSI adapter.
+   Step 3: Click OK. A new adapter (e.g., vmhba65) will be created.
+   Step 4: Select the new adapter and click the Network Port Binding tab in the lower pane.
+   Step 5: Click Add and select the iSCSI-Storage VMkernel adapter created in the previous task.
+ 4. Connect the iSCSI Software Adapters to Storage
+   Step 1: With the iSCSI adapter selected, click the Dynamic Discovery tab.
+   Step 2: Click Add and enter the IP address of the Ubuntu storage server (192.168.0.103). Click OK.
+   Step 3: A prompt will appear asking to rescan the adapter. Click Rescan.
+   Step 4: Navigate to the Storage Devices menu on the left.
+   Step 5: Verify that the remote LUN (e.g., 10GB Disk) is now visible in the list of available devices.
+Conclusion: The ESXi host was successfully configured to communicate with a remote iSCSI target. By provisioning a dedicated VMkernel interface and binding it to the software iSCSI initiator, the host successfully discovered remote block storage, enabling the creation of new datastores.
+
