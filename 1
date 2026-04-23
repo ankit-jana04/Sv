@@ -1,0 +1,36 @@
+Practical 1: Deploying and Configuring Virtual Machines
+Aim: To provision a new virtual machine, install a guest operating system, and configure essential integration services (VMware Tools).
+Practical Description:
+Access Your Student Desktop.
+Create a Virtual Machine.
+Install VMware Tools.
+Copy Files to the Desktop.
+Software used: VMware vSphere Client 7.0, Windows/Linux ISO, VMware Tools.
+Theory: A Virtual Machine (VM) is a software-based emulation of a physical computer. To run a VM efficiently, VMware Tools is a critical suite of utilities that enhances the performance and management of the guest operating system. It includes specialized drivers for video, networking, and mouse movement, and enables features like "Time Synchronization" and "Graceful Shutdown" from the vCenter interface. Without VMware Tools, a VM lacks optimized hardware interaction with the underlying ESXi host.
+Implementation:
+1. Access Your Student Desktop
+STEP 1: Launch the remote desktop client on your workstation.
+STEP 2: Enter the credentials and IP address provided by the lab instructor to access the dedicated student management environment.
+STEP 3: Open a web browser (Chrome or Firefox) and navigate to the vSphere Client URL (https://192.168.0.110/ui).
+2. Create a Virtual Machine
+STEP 1: Right-click your ESXi host (192.168.0.106) and select New Virtual Machine.
+STEP 2: Choose Create a new virtual machine and click Next.
+STEP 3: Name the VM (e.g., Ankit-Lab-VM) and select the destination Datastore.
+STEP 4: Select the Guest OS Family (e.g., Linux) and Version (e.g., Ubuntu Linux 64-bit).
+STEP 5: Customize the Hardware: Allocate 2 vCPUs, 2GB RAM, and 16GB Disk.
+STEP 6: Under the CD/DVD Drive, select Datastore ISO file, browse to the folder containing the OS ISO, and ensure Connect at Power On is checked.
+STEP 7: Click Finish, then right-click the VM and select Power On. Open the Web Console to complete the OS installation.
+3. Install VMware Tools
+STEP 1: Once the Guest OS installation is complete and you have logged in, navigate to the vSphere Client menu.
+STEP 2: Click Actions > Guest OS > Install VMware Tools. This mounts a virtual CD containing the installer.
+STEP 3: In Linux: Open a terminal and run the following:
+sudo mount /dev/cdrom /mnt
+tar -xzf /mnt/VMwareTools-*.tar.gz -C /tmp/
+sudo /tmp/vmware-tools-distrib/vmware-install.pl -d
+STEP 4: (For Windows, simply run the setup.exe from the virtual D: drive).
+STEP 5: Restart the VM. Verify that the "VMware Tools" status in the VM Summary tab now shows Running, version:#### (Current).
+4. Copy Files to the Desktop
+STEP 1: With VMware Tools installed, "Drag and Drop" or "Copy/Paste" functionality is now enabled between the student desktop and the VM.
+STEP 2: Locate the required lab files or drivers on your student desktop.
+STEP 3: Drag the files into the VM console window and drop them onto the VM’s desktop.
+STEP 4: Alternatively, use a browser within the VM to download files directly from the lab repository.
