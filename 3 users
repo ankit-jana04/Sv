@@ -1,0 +1,47 @@
+### Practical 3: Users, Groups, and Permissions
+**Aim:** To integrate vCenter Server with Active Directory and manage granular access control using domain identities.
+**Practical Description:**
+ 1. Join the vCenter Server Appliance to vclass.local Domain.
+ 2. Add vclass.local as an Identity Source.
+ 3. View Active Directory Users.
+ 4. Assign Object Permissions to an Active Directory User.
+ 5. Assign Root-Level Global Permission.
+ 6. Log In with Windows Session Authentication.
+ 7. Use an Active Directory User to Manage a Virtual Machine.
+**Software used:** VMware vCenter Server 7.0, Active Directory Domain Controller.
+**Theory:** vCenter Server uses a "Single Sign-On" (SSO) mechanism to manage authentication. By joining vCenter to an Active Directory domain, administrators can leverage existing corporate identities instead of local SSO accounts. Permissions in vSphere are a combination of a **User/Group**, a **Role** (set of privileges), and an **Object** (the VM, Host, or Datastore). Global Permissions allow a user to have the same rights across all objects in the vCenter inventory.
+**Implementation:**
+**1. Join vCenter to vclass.local Domain**
+ * **STEP 1:** Log in to vSphere Client as administrator@vsphere.local.
+ * **STEP 2:** Navigate to **Administration > Single Sign-On > Configuration**.
+ * **STEP 3:** On the **Active Directory** tab, click **Join AD**.
+ * **STEP 4:** Enter the Domain (vclass.local), User name, and Password. Click **Join**.
+ * **STEP 5:** **Note:** The vCenter Server Appliance must be rebooted for the domain join to take effect.
+**2. Add vclass.local as an Identity Source**
+ * **STEP 1:** After reboot, navigate back to **Administration > Single Sign-On > Configuration**.
+ * **STEP 2:** Select the **Identity Sources** tab and click **Add**.
+ * **STEP 3:** Select **Active Directory (Integrated Windows Authentication)**.
+ * **STEP 4:** Ensure the domain vclass.local is detected and click **Add**.
+**3. View Active Directory Users**
+ * **STEP 1:** Navigate to **Administration > Single Sign-On > Users and Groups**.
+ * **STEP 2:** Change the **Domain** dropdown from vsphere.local to vclass.local.
+ * **STEP 3:** Browse the list to verify that domain users (e.g., User01) are visible in the vCenter interface.
+**4. Assign Object Permissions to an AD User**
+ * **STEP 1:** Navigate to the **Hosts and Clusters** view.
+ * **STEP 2:** Select a specific Virtual Machine, click the **Permissions** tab, and click **Add**.
+ * **STEP 3:** Select the domain vclass.local and search for a user.
+ * **STEP 4:** Assign a defined Role (e.g., **Virtual Machine User**) and click **OK**.
+**5. Assign Root-Level Global Permission**
+ * **STEP 1:** Navigate to **Administration > Access Control > Global Permissions**.
+ * **STEP 2:** Click **Add**.
+ * **STEP 3:** Select the user from vclass.local, choose the **Administrator** role, and ensure **Propagate to children** is checked. Click **OK**.
+**6. Log In with Windows Session Authentication**
+ * **STEP 1:** Logout of the vSphere Client.
+ * **STEP 2:** On the login page, check the box **Use Windows session authentication**.
+ * **STEP 3:** If the browser plugin is installed, vCenter will pass the current Windows logged-in credentials automatically.
+**7. Use an AD User to Manage a VM**
+ * **STEP 1:** Log in as the vclass.local user assigned in Task 4.
+ * **STEP 2:** Locate the specific VM. Verify that "Power On/Off" actions are available.
+ * **STEP 3:** Attempt to modify a Host setting; the action should be grayed out, confirming that permissions are restricted to the assigned VM object.
+**Conclusion:** The vCenter Server was successfully integrated with the vclass.local Active Directory domain. Granular permissions were assigned at the object level, and broad access was granted via Global Permissions. The validation process confirmed that domain-based identities can successfully manage virtual infrastructure according to the principle of least privilege.
+
