@@ -1,0 +1,44 @@
+Practical 13: Managing vSphere HA Clusters
+Aim: To configure, manage, and validate vSphere High Availability (HA) to ensure service continuity during physical host failures.
+Practical Description:
+ 1. Create a Cluster Enabled for vSphere HA.
+ 2. Add Your ESXi Hosts to the Cluster.
+ 3. Test the vSphere HA Functionality.
+ 4. View the vSphere HA Cluster Resource Usage.
+ 5. Manage vSphere HA Slot Size.
+ 6. Configure a vSphere HA Cluster with Strict Admission Control.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: vSphere HA provides high availability for virtual machines by pooling them and the hosts they reside on into a cluster. If a host fails, the virtual machines running on that host are automatically restarted on other available hosts in the cluster. Admission Control ensures that sufficient resources are always reserved in the cluster to support these restarts in the event of a failure.
+Implementation:
+ 1. Create a Cluster Enabled for vSphere HA
+   Step 1: In the vSphere Client, right-click your Datacenter object and select New Cluster.
+   Step 2: Provide a name (e.g., HA-Cluster-01).
+   Step 3: Toggle the vSphere HA switch to ON and click Finish.
+   Step 4: Review the cluster settings to ensure Host Monitoring and VM Monitoring are enabled.
+ 2. Add Your ESXi Hosts to the Cluster
+   Step 1: Drag and drop your ESXi hosts from the Datacenter inventory into the new Cluster object.
+   Step 2: Monitor the Recent Tasks as vCenter installs the HA agents (FDM) on each host.
+   Step 3: Verify that the hosts show a "Connected" status and that no HA configuration errors are present in the Summary tab.
+ 3. Test the vSphere HA Functionality
+   Step 1: Ensure a virtual machine is running on Host A and is stored on shared storage.
+   Step 2: Simulate a host failure by hard-resetting or powering off Host A.
+   Step 3: Observe the vCenter inventory. After a short detection period, verify the VM automatically restarts on Host B.
+   Step 4: Check the VM's uptime to confirm it has rebooted.
+ 4. View the vSphere HA Cluster Resource Usage
+   Step 1: Select the Cluster in the inventory and navigate to the Monitor tab.
+   Step 2: Select vSphere HA and click Summary.
+   Step 3: Review the heartbeating status and the number of master and slave hosts.
+   Step 4: View the reported "Total Capacity" and "Reserved Capacity" to understand the cluster's failover overhead.
+ 5. Manage vSphere HA Slot Size
+   Step 1: Select the Cluster and go to Configure > vSphere Availability > Edit.
+   Step 2: Navigate to Admission Control.
+   Step 3: Under "Define host failover capacity by," select "Slot Policy."
+   Step 4: View the calculated slot size. Manually set a fixed slot size for CPU and Memory (e.g., 512MHz and 1024MB) and click OK.
+   Step 5: Verify how the manually defined slot size changes the number of available slots in the cluster.
+ 6. Configure a vSphere HA Cluster with Strict Admission Control
+   Step 1: In the Admission Control settings, select the policy "Cluster Resource Percentage."
+   Step 2: Set the percentage of CPU and Memory resources to reserve for failover (e.g., 25%).
+   Step 3: Enable the checkbox "Strict Admission Control" to prevent VMs from powering on if they violate the reservation.
+   Step 4: Attempt to power on additional VMs to verify that vCenter blocks the action once the resource limit is reached.
+Conclusion: A vSphere HA cluster was successfully created and validated through a simulated host failure. The automated restart of virtual machines confirmed the high availability of the environment. Furthermore, resource management was demonstrated by adjusting slot sizes and enforcing strict admission control policies to guarantee failover capacity.
+
