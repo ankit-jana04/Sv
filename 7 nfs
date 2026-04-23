@@ -1,0 +1,26 @@
+Practical 7: Accessing NFS Storage
+Aim: To configure an ESXi host to mount and manage a remote Network File System (NFS) share as a datastore.
+Practical Description:
+ 1. Configure Access to NFS Datastores.
+ 2. View NFS Storage Information.
+Software used: VMware vCenter Server 7.0, VMware ESXi, Ubuntu NFS Server.
+Theory: Network File System (NFS) is a file-level storage protocol that allows an ESXi host to access a remote directory over an IP network. Unlike VMFS, which requires the host to manage the file system, the NFS server handles all file-level operations. ESXi simply mounts the shared folder. NFS datastores are commonly used for storing ISO images, virtual disks, and backups because they are easy to share across multiple hosts simultaneously.
+Implementation:
+ 1. Configure Access to NFS Datastores
+   Step 1: Log in to the vSphere Client and navigate to the Storage view.
+   Step 2: Right-click your ESXi host (192.168.0.106) and select Storage > New Datastore.
+   Step 3: Select NFS as the datastore type and click Next.
+   Step 4: Select NFS 3 (or NFS 4.1 depending on server configuration) as the protocol version and click Next.
+   Step 5: Provide a Datastore Name (e.g., Shared-NFS-Datastore).
+   Step 6: In the Folder field, enter the exact export path from the Ubuntu server (e.g., /mnt/nfs_share).
+   Step 7: In the Server field, enter the IP address of the NFS server (192.168.0.103). Click Next.
+   Step 8: Review the configuration and click Finish. The NFS volume will appear in the datastore inventory.
+ 2. View NFS Storage Information
+   Step 1: Select the newly created Shared-NFS-Datastore in the inventory tree.
+   Step 2: Click the Summary tab. Observe the Capacity, Used Space, and Free Space metrics reported by the remote server.
+   Step 3: Verify the Type is listed as NFS and check the Hardware Acceleration status (typically "Not Supported" for standard NFS).
+   Step 4: Click the Configure tab and select Device Backing under the General section.
+   Step 5: Verify that the Remote Server IP and Remote Folder path match the configuration set during the mount process.
+   Step 6: Click the Files tab to ensure the host has read/write permissions to create and manage files within the NFS directory.
+Conclusion: Access to remote file-level storage was successfully established using the NFS protocol. The ESXi host was able to mount the remote share as a functional datastore, and storage metrics were successfully validated through the vSphere management interface.
+
