@@ -1,0 +1,42 @@
+Practical 6: Managing VMFS Datastores
+Aim: To create, expand, extend, and manage Virtual Machine File System (VMFS) datastores using iSCSI-backed storage devices.
+Practical Description:
+ 1. Create VMFS Datastores for the ESXi Host.
+ 2. Expand a VMFS Datastore to Consume Unused Space on a LUN.
+ 3. Remove a VMFS Datastore.
+ 4. Extend a VMFS Datastore.
+ 5. Create a Second Shared VMFS Datastore Using iSCSI.
+Software used: VMware vCenter Server 7.0, VMware ESXi.
+Theory: VMFS is a high-performance cluster file system specifically optimized for virtual machines. It allows multiple ESXi hosts to read and write to the same storage simultaneously. A VMFS datastore can be modified in two ways: Expanding (increasing size using free space on the same physical disk) or Extending (increasing size by spanning the volume across a completely different physical disk/LUN).
+Implementation:
+ 1. Create VMFS Datastores for the ESXi Host
+   Step 1: In the vSphere Client, navigate to the Storage view.
+   Step 2: Right-click the ESXi host and select Storage > New Datastore.
+   Step 3: Select VMFS as the datastore type and provide a name (e.g., iSCSI-Datastore-01).
+   Step 4: Select the discovered iSCSI LUN from the list.
+   Step 5: Select VMFS 6 as the partition version and use the default configuration for space allocation. Click Finish.
+ 2. Expand a VMFS Datastore to Consume Unused Space on a LUN
+   Step 1: Select the existing iSCSI-Datastore-01 and click the Configure tab.
+   Step 2: Select General and click the Increase Capacity button.
+   Step 3: Select the option "Expand an existing datastore extent."
+   Step 4: Select the current LUN and use the slider to claim the remaining unallocated space.
+   Step 5: Review the summary and click Finish to see the updated capacity.
+ 3. Remove a VMFS Datastore
+   Step 1: Ensure no virtual machines or templates are stored on the target datastore.
+   Step 2: Right-click the datastore and select Unmount Datastore to safely disconnect it from the host.
+   Step 3: Once unmounted, right-click the datastore again and select Delete Datastore.
+   Step 4: Confirm the deletion to permanently remove the VMFS volume and its partition table from the LUN.
+ 4. Extend a VMFS Datastore
+   Step 1: Select an active VMFS datastore and click Increase Capacity.
+   Step 2: Select the option "Add a new extent to existing datastore."
+   Step 3: Select a second, separate available LUN from the list of storage devices.
+   Step 4: Choose the amount of space to utilize from the new disk.
+   Step 5: Click Finish. The datastore will now span across two physical LUNs, showing the combined total capacity.
+ 5. Create a Second Shared VMFS Datastore Using iSCSI
+   Step 1: Ensure the iSCSI Software Adapter has discovered a second LUN from the storage server.
+   Step 2: Go to Storage > New Datastore and select VMFS.
+   Step 3: Name the new volume (e.g., Shared-iSCSI-02).
+   Step 4: Select the second LUN and complete the wizard.
+   Step 5: Verify that both ESXi hosts in the cluster can see and access this shared volume for VM placement.
+Conclusion: Virtual Machine File System (VMFS) volumes were successfully provisioned and managed. The practical demonstrated the flexibility of storage administration by expanding volumes on a single disk and extending them across multiple physical devices. The successful deletion and creation of shared volumes prepared the environment for advanced cluster features.
+
